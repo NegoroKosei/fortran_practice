@@ -2,7 +2,7 @@ module modu
    implicit none
 contains
    subroutine newton(x1,i)
-      real(8):: x1,x2,y,delta,epsilon=1.0d-12 !相対誤差の大きさを指定
+      real(8):: x1,x2,y,delta,epsilon=1.0d-15 !相対誤差の大きさを指定
       integer,intent(out)::i
       i=0
       do
@@ -14,7 +14,7 @@ contains
          x1=x2
          if((func(x2))==0.0d0) then 
             exit
-         else if(abs(delta)<(abs(x2)*epsilon)) then 
+         elseif(abs(delta)<(abs(x2)*epsilon)) then 
             exit
          endif
       end do
