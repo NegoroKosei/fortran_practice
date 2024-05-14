@@ -10,7 +10,6 @@ contains
       do xidx=0,xsteps-1,2
          x=real((xfrom*(xsteps-xidx)+xto*xidx))/real(xsteps)
          sum=sum + func(x)+2.0d0*func(x+hh)
-         write(*,*)xidx
       enddo
       sum=sum*2.0d0
       sum=sum-func(xfrom)+func(xto)
@@ -29,9 +28,12 @@ program ex7
    implicit none
    real(8) ::xfrom,xto,sum=0.0d0,x
    integer ::fo=11,is,xsteps
-   write(*,'(a)',advance='no')'input x1 : from to steps : '
-   read(*,*)xfrom,xto,xsteps !初期値の読み込み
-   if(modulo(xsteps,2)/=0) stop 'Bad steps'
+   ! write(*,'(a)',advance='no')'input x1 : from to steps : '
+   ! read(*,*)xfrom,xto,xsteps !初期値の読み込み
+   ! if(modulo(xsteps,2)/=0) stop 'Bad steps'
+   xfrom=0.0d0
+   xto=2.0d0*acos(0.0d0)
+   xsteps=20000
    sum=simpson(xfrom,xto,xsteps)
    open (fo,file='ex7_output.d',action='write',iostat=is)
    if(is/=0) stop 'cannot open output file'    !書き込み用ファイルの確認
