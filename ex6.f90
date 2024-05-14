@@ -23,27 +23,31 @@ contains
    function func(x) result (y)
    real(8),intent(in)::x
    real(8) y
-      y=x**2-1.0d0
+      y=x**3-x
    end function func
 
    function diff(x) result (y)
    real(8),intent(in)::x
    real(8) y
-      y=2*x
+      y=3.0d0*x**2-1
    end function diff
 end module modu
 
-program ex3
+program ex6
    use modu
    implicit none
-   real(8) x
-   integer ::fo=11,i,is
-   write(*,'(a)',advance='no')'input x1 : '
-   read(*,*)x    !初期値xの読み込み
-   open (fo,file='ex3_output.d',action='write',iostat=is)
-   if(is/=0) stop 'cannot open output file'    !書き込み用ファイルの確認
-   call newton(x,i)
-   write(fo,*)x,i
+   real(8) x,x0
+   integer ::fo=11,i,is,n,j
+   write(*,'(a)',advance='no')'input n : '
+   read(*,*)n    !回数nの読み込み
+   do j=1,n
+      write(*,'(a,i3,a)',advance='no')'input x',j,'  :  '
+      read(*,*)x    !初期値xの読み込み
+      x0=x
+      open (fo,file='ex6_output.d',action='write',iostat=is)
+      if(is/=0) stop 'cannot open output file'    !書き込み用ファイルの確認
+      call newton(x,i)
+      write(fo,*)x0,x,i
+   enddo
    close(fo)
-end program ex3
-
+end program ex6
