@@ -15,7 +15,7 @@ program ex1
    endif
    o=b*b-4.0d0*a*c
    if(o>0.0d0) then   !実数解
-      x1=(-b+sign(sqrt(o),-b))/(2.0d0*a)  !|b|~=sqrt(o)のとき桁落ちが生まれ誤差が生じやすい
+      x1=(-b+sign(sqrt(o),-b))/(2.0d0*a)  !|b|~=sqrt(o)のとき桁落ちが生まれ誤差が生じやすいので同符号のみ求める
       x2=c/(a*x1)                         !解と係数の関係より求める
       write(*,'(a,f10.5)')'x1 = ',x1
       write(*,'(a,f10.5)')'x2 = ',x2
