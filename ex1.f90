@@ -9,26 +9,26 @@ program ex1
          write(*,*)'it is not equation'
          stop
       endif
-      x1=c/b
-      write(*,'(a,f10.5)')'x1 = ',x1
+      x1=-c/b
+      write(*,'("x1="f10.5"")')x1
       stop
    endif
    o=b*b-4.0d0*a*c
    if(o>0.0d0) then   !実数解
       x1=(-b+sign(sqrt(o),-b))/(2.0d0*a)  !|b|~=sqrt(o)のとき桁落ちが生まれ誤差が生じやすいので同符号のみ求める
       x2=c/(a*x1)                         !解と係数の関係より求める
-      write(*,'(a,f10.5)')'x1 = ',x1
-      write(*,'(a,f10.5)')'x2 = ',x2
-      stop
+      write(*,'("x1="f10.5"")')x1
+      write(*,'("x2="f10.5"")')x2
+
    else if(o==0.0d0) then  !重解
       x1=-b/(2.0d0*a)
-      write(*,'(a,f10.5,a)')'x1 = ',x1,'(Heavy Solution)'
-      stop
+      write(*,'("x1="f10.5" (Heavy Solution)")')x1
+
    else   !虚数解
-      ix1=cmplx(-b/(2.0d0*a),sqrt(-o)/(2.0d0*a),kind=8)
-      ix2=cmplx(-b/(2.0d0*a),sqrt(-o)/(-2.0d0*a),kind=8)
-      write(*,'(a,2e11.3)')'x1 = ',ix1  !2個の値を処理する(虚数だと値が2つになる)
-      write(*,'(a,2e11.3)')'x2 = ',ix2 
-      stop
+      ix1=cmplx(-b/(2.0d0*a),sqrt(-o)/(2.0d0*a))
+      ix2=cmplx(-b/(2.0d0*a),sqrt(-o)/(-2.0d0*a))
+      write(*,'("x1="f10.5"  + "f10.5" i")')real(ix1),aimag(ix1)
+      write(*,'("x2="f10.5"  + "f10.5" i")')real(ix2),aimag(ix2)
    endif
+
 end program ex1
