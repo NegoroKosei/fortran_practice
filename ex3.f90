@@ -1,32 +1,39 @@
 module modu
    implicit none
 contains
-   subroutine newton(x1,i)
-      real(8):: x1,x2,y,delta,epsilon=1.0d-15 !相対誤差の大きさを指定
+   subroutine newton(x1,i,v,fo)
+      real(8):: x1,x2,y,delta
+      real(8),parameter::epsilon=1.0d-15 !相対誤差の大きさを指定
       integer,intent(out)::i
-      i=0
+      integer,intent(in)::v,fo
+      integer,parameter::max_i=100 !最大反復回数max_iを指定
       do
          i=i+1
-         if(i>100) stop 'err :did not converge' !最大反復回数100
+         if(i>max_i) stop 'err :did not converge' !最大反復回数まで繰り返し
          if((diff(x1))==0.0d0) stop 'err : diff==0!'
          x2=-func(x1)/diff(x1)+x1
          delta=x1-x2
          x1=x2
+
+         if(v==1) then    !verboseモード
+            write(fo,*)x2,i
+         endif
+
          if((func(x2))==0.0d0) then 
             exit
-         elseif(abs(delta)<(abs(x2)*epsilon)) then 
+         elseif(abs(delta)<(abs(x2)*epsilon)) then
             exit
          endif
       end do
    end subroutine newton
 
-   function func(x) result (y)
+   function func(x) result (y) !f(x)
    real(8),intent(in)::x
    real(8) y
       y=x**2-1.0d0
    end function func
 
-   function diff(x) result (y)
+   function diff(x) result (y) !f'(x)
    real(8),intent(in)::x
    real(8) y
       y=2*x
@@ -37,12 +44,28 @@ program ex3
    use modu
    implicit none
    real(8) x
-   integer ::fo=11,i,is
+   integer:: i=0,is
+   integer,parameter::fi=10,fo=11
+
+   !verboseモードの設定　実行時に-vを入力すると
+   integer::argn=0,k=1,v=0
+   character(len=100)::argc
+   argn=command_argument_count()
+   write(*,*)argn
+   do k =1,argn
+      call get_command_argument(k,argc)
+      if(argc=='-v') v=1
+   enddo
+
    write(*,'(a)',advance='no')'input x1 : '
    read(*,*)x    !初期値xの読み込み
-   open (fo,file='ex3_output.d',action='write',iostat=is)
+   open (fo,file='ex3_file/output.d',status='replace',action='write',iostat=is)
    if(is/=0) stop 'cannot open output file'    !書き込み用ファイルの確認
-   call newton(x,i)
+   if(func(x)==0 .or. v==1) then
+      write(fo,*)x,i
+      stop
+   endif
+   call newton(x,i,v,fo)
    write(fo,*)x,i
    close(fo)
 end program ex3
