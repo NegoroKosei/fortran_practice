@@ -2,11 +2,11 @@ module modu
    implicit none
 contains
    subroutine newton(x1,i,v,fo)
-      real(8):: x2,y,delta
-      real(8),parameter::epsilon=1.0d-15           !相対誤差の大きさを指定
       real(8),intent(out)::x1
       integer,intent(out)::i
       integer,intent(in)::v,fo                     !verboseモード用の変数
+      real(8):: x2,y,delta
+      real(8),parameter::epsilon=1.0d-15           !相対誤差の大きさを指定
       integer,parameter::max_i=100                 !最大反復回数max_iを指定
       
       i=0
@@ -17,7 +17,7 @@ contains
          x2=-func(x1)/diff(x1)+x1
          delta=x1-x2
          x1=x2
-         if((func(x2))==0.0d0) then 
+         if((func(x2))==0.0d0) then
             exit
          elseif(abs(delta)<(abs(x2)*epsilon)) then  !収束判定
             exit
@@ -48,7 +48,7 @@ program ex3
 
    !verboseモードの設定　実行時に-vを入力するとすべてのstepでの結果を出力できる
    integer::argn=0,k=1,v=0
-   character(len=100)::argc
+   character(len=64)::argc
    argn=command_argument_count()
    do k =1,argn
       call get_command_argument(k,argc)
