@@ -36,17 +36,18 @@ end module modu
 program ex6
    use modu
    implicit none
-   real(8) x,x0
-   integer ::fo=11,i,is,n,j
-   write(*,'(a)',advance='no')'input n : '
-   read(*,*)n    !回数nの読み込み
-   
-   open (fo,file='ex6_file/output.d',status='replace',action='write',iostat=is)
+   real(8) xfrom,xto,x,x0
+   integer ::fo=11,xidx,is,xsteps,i
+   write(*,'(a)',advance='no')'xfrom xto xsteps : '
+
+   !初期値の読み込み
+   read(*,*)xfrom,xto,xsteps                  
+
+   open (fo,file='ex6_addi_file/output.d',status='replace',action='write',iostat=is)
    if(is/=0) stop 'cannot open output file'    !書き込み用ファイルの確認
 
-   do j=1,n
-      write(*,'(a,i3,a)',advance='no')'input x',j,'  :  '
-      read(*,*)x    !初期値xの読み込み
+   do xidx=0,xsteps
+      x=real((xfrom*(xsteps-xidx)+xto*xidx))/real(xsteps) 
       x0=x
       call newton(x,i)
       write(fo,*)x0,x,i

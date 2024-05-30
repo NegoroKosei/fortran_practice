@@ -7,6 +7,8 @@ contains
       integer,intent(out)::i
       integer,intent(in)::v,fo           !verboseモード用の変数
       integer,parameter::max_i=100       !最大反復回数100
+      
+      i=0
       do
          i=i+1
          if(i>max_i) stop 'err :did not converge' 

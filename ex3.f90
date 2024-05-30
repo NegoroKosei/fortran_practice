@@ -2,11 +2,14 @@ module modu
    implicit none
 contains
    subroutine newton(x1,i,v,fo)
-      real(8):: x1,x2,y,delta
+      real(8):: x2,y,delta
       real(8),parameter::epsilon=1.0d-15           !相対誤差の大きさを指定
+      real(8),intent(out)::x1
       integer,intent(out)::i
       integer,intent(in)::v,fo                     !verboseモード用の変数
       integer,parameter::max_i=100                 !最大反復回数max_iを指定
+      
+      i=0
       do
          i=i+1
          if(i>max_i) stop 'err :did not converge'  !最大反復回数まで繰り返し
@@ -29,7 +32,7 @@ contains
       y=x**2-1.0d0
    end function func
 
-   function diff(x) result (y)              !f'(x)
+   function diff(x) result (y)             !f'(x)
    real(8),intent(in)::x
    real(8) y
       y=2*x
@@ -55,7 +58,7 @@ program ex3
    write(*,'(a)',advance='no')'input x1 : '
    read(*,*)x                                  !初期値xの読み込み
 
-   open (fo,file='ex3_file/output.d',status='replace',action='write',iostat=is)
+   open (fo,file='ex3_file/output001.d',status='replace',action='write',iostat=is)   !ファイル名をここで変更できる
    if(is/=0) stop 'cannot open output file'    !書き込み用ファイルの確認
 
    if(func(x)==0) then                         !初期値xが解かどうか確認
