@@ -8,7 +8,7 @@ contains
    function func(x) result (y)
       real(8), intent(in) :: x
       real(8) y
-      real(8),parameter::k=50     ! ばね定数 k の設定
+      real(8),parameter::k=50.0d0     ! ばね定数 k の設定
 
       y = k * x * x / 2   ! 任意の四則演算、ここを変更する。今回はバネのエネルギーを求める
 
@@ -65,6 +65,7 @@ program ex2
    do i = 1, max_n
       write(output_file_n, '(i3, f10.5)') n(i), x(i)   !データを2列ずつ書き込み
    end do
+   
    close(output_file_n)
 
 end program ex2

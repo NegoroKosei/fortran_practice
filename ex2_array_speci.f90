@@ -12,7 +12,7 @@ contains
    function func(x) result (y)
       real(8), intent(in) :: x
       real(8) :: y
-      real(8),parameter::k=50     ! ばね定数 k の設定
+      real(8),parameter::k=50.0d0     ! ばね定数 k の設定
 
       y = k * x * x / 2   ! 任意の四則演算、ここを変更する。今回はバネのエネルギーを求める
 
@@ -40,7 +40,6 @@ program ex2
    integer :: i, is, iost, max_n, max_array_n
    integer, parameter :: input_file_n = 10, output_file_n = 11
    character(len=32) :: file_name
-   integer :: modify_nfrom, modify_nto  ! 適応するファイル番号の始めと終わり
    integer :: file_n  ! ファイル番号
 
    max_n = 100  ! 最大配列数(行数)の指定
