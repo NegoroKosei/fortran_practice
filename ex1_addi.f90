@@ -1,7 +1,12 @@
+! 計算誤差を考えて重解の判定に幅を持たせる。
+! 今回は誤差を重解の方に丸めたが、虚数解や実数解２つの場合の判定にも誤差があるため
+! 場合によって使い分けをする。
+
 program ex1
    implicit none
    real(8) :: a, b, c, x1, x2, d
    complex(8) :: ix1, ix2
+   real(8), parameter :: epsilon = 1d-14  !重解に丸める誤差の値
 
    ! 係数a, b, cの入力
    write(*,'(a)', advance='no') 'input a, b, c :'
@@ -11,10 +16,10 @@ program ex1
    if (a == 0.0d0) then
       if (b == 0.0d0) then
          if (c == 0.0d0) then
-            write(*,*) 'x is indeterminate'  ! a = b = c = 0のとき不定解
+            write(*,*) 'x is indeterminate'  ! a = b = c = 0 のとき不定解
             stop
          else
-            write(*,*) 'No solution'  ! a = b = 0かつc /= 0のとき解がない
+            write(*,*) 'No solution'  ! a = b = 0 かつ c /= 0 のとき解がない
             stop
          endif
       else
@@ -28,13 +33,13 @@ program ex1
    ! 判別式の計算
    d = b * b - 4.0d0 * a * c
 
-   if (d > 0.0d0) then  ! 実数解
+   if (d > epsilon) then  ! 実数解
       x1 = (-b + sign(sqrt(d), -b)) / (2.0d0 * a)  ! 桁落ちを防ぐため同符号の解を求める
       x2 = c / (a * x1)  ! もう一つの解は、解と係数の関係より求める
       write(*,'("x1 = " f24.12)') x1
       write(*,'("x2 = " f24.12)') x2
 
-   else if (d == 0.0d0) then  ! 重解
+   else if (abs(d) <= epsilon) then  ! 重解
       x1 = -b / (2.0d0 * a)
       write(*,'("x1 = " f24.12 " (Repeated Solution)")') x1
 
@@ -46,16 +51,3 @@ program ex1
    endif
 
 end program ex1
-
-! b**2.0d0の計算は　x^y=exp(y*ln(x))　で計算される　→　重くなる
-
-! b**2　と整数にしてやる。もしくはb*bとする。
-
-! ifと()の間は開ける！！！！！！！！！！！！！！！！
-
-! 表記法"d24.16"とする！！！！！！！！！！！！！！！
-! 0.324252D+01と表示される
-! 24-16=8の残りの部分は先頭の空白、符号、0.、D+01の計8でピッタリになる。
-! f → 小数表示(倍精度になるはず)
-! e → 指数表示(単精度になることがある)
-! i → 整数, a → 文字列 

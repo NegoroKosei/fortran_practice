@@ -61,11 +61,12 @@ program ex2
 
    open(output_file_n, file = 'ex2_file/output.d', status = 'replace', action = 'write', iostat = is)
    if (is /= 0) stop 'cannot open output file'  ! 書き込み用ファイルの確認
+   write(*, *) 'output_file : ex2_file/output.d'
 
    do i = 1, max_n
       write(output_file_n, '(i3, f10.5)') n(i), x(i)   !データを2列ずつ書き込み
    end do
-   
+
    close(output_file_n)
 
 end program ex2
