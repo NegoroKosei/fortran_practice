@@ -2,7 +2,7 @@ module modu
    implicit none
 contains
    subroutine newton(x1,i,v,fo)
-      real(8),intent(out)::x1
+      real(8),intent(inout)::x1
       integer,intent(out)::i
       integer,intent(in)::v,fo                     !verboseモード用の変数
       real(8):: x2,y,delta
@@ -45,6 +45,8 @@ program ex3
    real(8) x
    integer:: i=0,is
    integer,parameter::fi=10,fo=11
+
+   
 
    !verboseモードの設定　実行時に-vを入力するとすべてのstepでの結果を出力できる
    integer::argn=0,k=1,v=0

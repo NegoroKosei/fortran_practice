@@ -11,14 +11,14 @@ program ex1
    if (a == 0.0d0) then
       if (b == 0.0d0) then
          if (c == 0.0d0) then
-            write(*,*) 'x is indeterminate'  ! a = b = c = 0のとき不定解
+            write(*,*) 'x is indeterminate'  ! a = b = c = 0 のとき不定解
             stop
          else
-            write(*,*) 'No solution'  ! a = b = 0かつc /= 0のとき解がない
+            write(*,*) 'No solution'  ! a = b = 0 かつ c /= 0 のとき解がない
             stop
          endif
       else
-         x1 = -c / b  ! a = 0のとき一次方程式 b*x + c = 0
+         x1 = -c / b  ! a = 0 のとき一次方程式 b * x + c = 0
          write(*,'("x1 = " f24.12)') x1
          stop
       endif
