@@ -18,7 +18,7 @@ program ex10
     ! 出力用情報
     integer, parameter :: fo = 10
     character(32), parameter :: fname = "graphene.dat"
-    character(32), parameter :: fmt = '(3d24.16)'
+    character(32), parameter :: fmt = '(3e24.16)'
     ! xy 座標 (A単位)
     real(8) :: xy(1:2)
     ! z 座標 (A単位)
