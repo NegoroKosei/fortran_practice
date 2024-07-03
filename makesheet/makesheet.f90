@@ -52,22 +52,22 @@ program makesheet
     ! グラフェンシートの各原子位置をファイルに出力
     open(fo, file=fname, status="replace")
     !並進ベクトルを平行移動、長方形は負の方向にも拡張
-    do i2 = -n2 + 1, n2 - 1
-        do i1 = -n2 +1, n1 - 1
+    do i2 = 0, n2 - 1
+        do i1 = 0, n1 - 1
 
 !#############################################################################!
 
             ! x座標の条件で除外
 
-            ! xy = bond_length * (i1*a1 + i2*a2 + m1)
+            xy = bond_length * (i1*a1 + i2*a2 + m1)
             ! if (xy(1) > n3*a1(1) * bond_length .and. xy(1) < (n2*2 - n3)*a1(1)*bond_length) then
-            !     write(fo, fmt) xy, z
+                 write(fo, fmt) xy, z
             ! end if
-            ! xy = bond_length * (i1*a1 + i2*a2 + m2)
+            xy = bond_length * (i1*a1 + i2*a2 + m2)
 
-            ! ! 端の原子を除外,x座標がを並進ベクトルの数分だけ端から離れている場合
+            ! 端の原子を除外,x座標がを並進ベクトルの数分だけ端から離れている場合
             ! if (xy(1) > n3*a1(1) * bond_length .and. xy(1) < (n2*2 - n3)*a1(1) * bond_length) then
-            !     write(fo, fmt) xy, z
+                 write(fo, fmt) xy, z
             ! end if
 
 !#############################################################################!
@@ -75,18 +75,18 @@ program makesheet
             ! 長方形ver
             ! n1とn2を負の方まで拡張,a1がy方向負であることに注意
             ! y方向は並進ベクトル上に原子が並ぶため、並進ベクトルの0.5倍を加える(n4 + 0.5 する)
-            xy = bond_length * (i1*a1 + i2*a2 + m1)
-            if (xy(1) > n3*a2(1) * bond_length .and. xy(1) < (n2*2 - n3)*a2(1)*bond_length) then
-                if (xy(2) > (-n2 + n4 + 0.5)*a2(2) * bond_length .and. xy(2) < (n2 - n4 - 0.5)*a2(2)*bond_length) then
-                    write(fo, fmt) xy, z
-                end if
-            end if
-            xy = bond_length * (i1*a1 + i2*a2 + m2)
-            if (xy(1) > n3*a2(1) * bond_length .and. xy(1) < (n2*2 - n3)*a2(1) * bond_length) then
-                if (xy(2) > (-n2 + n4 + 0.5)*a2(2) * bond_length .and. xy(2) < (n2 - n4  -0.5)*a2(2) * bond_length) then
-                    write(fo, fmt) xy, z
-                end if
-            end if
+            ! xy = bond_length * (i1*a1 + i2*a2 + m1)
+            ! if (xy(1) > n3*a2(1) * bond_length .and. xy(1) < (n2*2 - n3)*a2(1)*bond_length) then
+            !     if (xy(2) > (-n2 + n4 + 0.5)*a2(2) * bond_length .and. xy(2) < (n2 - n4 - 0.5)*a2(2)*bond_length) then
+            !         write(fo, fmt) xy, z
+            !     end if
+            ! end if
+            ! xy = bond_length * (i1*a1 + i2*a2 + m2)
+            ! if (xy(1) > n3*a2(1) * bond_length .and. xy(1) < (n2*2 - n3)*a2(1) * bond_length) then
+            !     if (xy(2) > (-n2 + n4 + 0.5)*a2(2) * bond_length .and. xy(2) < (n2 - n4  -0.5)*a2(2) * bond_length) then
+            !         write(fo, fmt) xy, z
+            !     end if
+            ! end if
 
 !#############################################################################!
 

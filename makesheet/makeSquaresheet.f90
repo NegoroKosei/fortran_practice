@@ -42,7 +42,7 @@ program makeSquaresheet
     ! ファイルオープンのステータス
     integer :: is
     ! 拡大倍率の設定
-    integer, parameter :: scale = 4
+    integer, parameter :: scale = 1
     ! シートの大きさ(ユニットセル単位),のちにscale倍する
     integer :: n1, n2
     ! 平行移動ベクトル(ユニットセル単位), のちにscale倍する
@@ -53,12 +53,12 @@ program makeSquaresheet
     real(8) :: rot(1:2, 1:2)
 
     ! シートの大きさの設定
-    n1 = 7 * scale
+    n1 = 10 * scale
     n2 = 7 * scale
     ! 平行移動ベクトルの設定
     trans = [ -3.5d0, -3.5d0] * scale
     ! 回転角の設定
-    theta = acos(0.5d0)
+    theta = acos(1.0d0)
     ! 回転行列の設定
     rot = reshape([cos(theta), -sin(theta), sin(theta), cos(theta)], [2, 2])
     ! z座標の設定

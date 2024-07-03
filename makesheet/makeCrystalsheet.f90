@@ -12,30 +12,30 @@ contains
 ! xy......六員環中心位置ベクトル(A単位)
 ! theta_n......y方向を0度とし、反時計回りに60度ずつ回転させたときの回転回数n
 ! n......再帰回数
-   recursive subroutine fractal(xy, theta_n, n, size, fo, fmt, z)
+   recursive subroutine fractal(xy, theta_n, n, fo, fmt, z)
     real(8),intent(in) :: xy(1:2), z
     integer,intent(in) :: fo
     character(32),intent(in) :: fmt
     integer,intent(in) :: theta_n, n
     ! 結晶の進展方向ベクトル(結合長単位)
-    real(8) :: xy_v(1:2), xy2(1:2), size
+    real(8) :: xy_v(1:2), xy2(1:2)
     integer :: theta_n2, i2
     xy_v = matmul([0.0d0, 1.0d0], reshape([cos(pi * theta_n / 3.0), -sin(pi * theta_n / 3.0), &
                                            sin(pi * theta_n / 3.0), cos(pi * theta_n / 3.0)], [2, 2]))
-    if (size < 3 .or. n>600) return
+    if (n > 20) return
     xy_v = matmul(-xy_v, rot90)
     xy2 = xy + xy_v * bond_length
     write(fo, fmt) xy2, z
     do i2 = 1, 3
         xy_v = matmul(xy_v, rot30)
-        if(i2 == 2) then
+        if (modulo(n, 6) == 5)  then
             xy2 = xy + sqrt(3.0d0) * xy_v * bond_length
             theta_n2 = modulo(theta_n - 2 + i2, 6)
-            call fractal(xy2, theta_n2, n + 1 , size - 0.5, fo, fmt, z)
-        else if (n > size)  then
+            call fractal(xy2, theta_n2, n + 1 , fo, fmt, z)
+        else if(i2 == 2) then
             xy2 = xy + sqrt(3.0d0) * xy_v * bond_length
             theta_n2 = modulo(theta_n - 2 + i2, 6)
-            call fractal(xy2, theta_n2, n + 1, size/2 , fo, fmt, z)
+            call fractal(xy2, theta_n2, n + 1 , fo, fmt, z)
         end if
         xy_v = matmul(xy_v, rot30)
         xy2 = xy + xy_v * bond_length
@@ -64,7 +64,7 @@ program makeCrystalsheet
     ! z座標の設定
     z = 0.0d0
     ! 出力ファイルのオープン
-    open(unit=fo, file=filename, status='replace', action='write', iostat=is)
+    open(fo, file=filename, status='replace', action='write', iostat=is)
     if (is /= 0) then
         print*, 'Error: file open'
         stop
@@ -78,7 +78,9 @@ program makeCrystalsheet
         write(fo, fmt) xy2, z
     end do
     xy = xy + bond_length * sqrt(3.0d0) * [0.0d0, 1.0d0]
-    call fractal(xy, 0, 1, 30.0d0, fo, fmt, z)
+    call fractal(xy, 0, 2, fo, fmt, z)
+    xy = bond_length * sqrt(3.0d0) * [0.0d0, -1.0d0]
+    call fractal(xy, 3, 2, fo, fmt, z)
 
     close(fo)
 

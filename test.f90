@@ -11,7 +11,7 @@ end program test
 ! continue 文　の使い方
 ! １．goto文と合わせて指定行にジャンプする
 ! ex) goto 10
-! 10 continue 
+! 10 continue
 !同じ文番号のcontinueにジャンプ
 ! ２．do文と合わせてループ終了を示す
 ! ex) do 20 i = 1, 10

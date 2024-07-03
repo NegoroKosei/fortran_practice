@@ -18,7 +18,7 @@ contains
 
    end function func
 
-   ! 一次元配列を受け取り、すべての要素についてfuncを実行するサブルーチン   
+   ! 一次元配列を受け取り、すべての要素についてfuncを実行するサブルーチン
    subroutine array_modi(x)
       real(8), intent(inout) :: x(:)  ! 形状引継ぎ配列
       integer :: i, j
@@ -97,6 +97,3 @@ end program ex2
 ! fortranは大文字、小文字を区別しない
 ! intent属性(入出力特性)は付けると最適化により、速度が向上することもある。バグも減らせる。
 ! read文を用いてread(A, 'I2', iostat = iost) B    → Aを'I2'として(整数2桁)としてBに代入
-
-! do文にif文を組み合わせるとき continueで次のループにジャンプ
-! 
