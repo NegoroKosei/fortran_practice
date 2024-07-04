@@ -1,3 +1,6 @@
+! ニュートン法による解の計算
+! 実行時にオプション'-v'を入力することでそれぞれのステップごとの出力も得られる
+
 module modu
    implicit none
 contains
@@ -17,13 +20,15 @@ contains
          i = i + 1                                    ! 反復回数の増加
          if (i > max_i) stop 'err: did not converge'  ! 最大反復回数まで繰り返し
 
-         ! 微分が0ならば解x2が求まらないため終了
+         ! 微分が0ならば解x2 が求まらないため終了
          if (diff(x1) == 0.0d0) stop 'err: diff==0!'
 
-         ! ニュートン法により新たな解x2を求める
+         ! ニュートン法により新たな解x2 を求める
          x2 = -func(x1) / diff(x1) + x1
-         ! 前の解x1と新たな解x2の差deltaを求める
+
+         ! 前の解x1 と新たな解x2 の差deltaを求める
          delta = x1 - x2
+
          ! 前のstepの解x1の更新
          x1 = x2
 
@@ -61,6 +66,7 @@ program ex3
    integer, parameter :: fo = 11
    character(len=32), parameter :: fname = "ex3_file/output001.dat"
    character(len=32), parameter :: fmt = '(d24.16, i3)'
+
    ! verboseモードの設定 実行時に-vを入力するとすべてのstepでの結果を出力できる
    integer :: argn = 0, k = 1, v = 0
    character(len=64) :: argc
@@ -90,3 +96,14 @@ program ex3
    close(fo)
 
 end program ex3
+
+
+
+
+
+
+
+
+
+! 文字列型　character
+! charactor(len=*)のように指定すると関数内で形状引き継ぎ配列のように扱える

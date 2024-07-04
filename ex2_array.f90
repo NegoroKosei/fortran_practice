@@ -39,7 +39,7 @@ program ex2
 
    max_n = 100  ! 最大配列数(行数)の指定
 
-   ! 最大の配列数(行数)で割付け   
+   ! 最大の配列数(行数)で割付け
    allocate(x(max_n), n(max_n), stat = is)
    if (is /= 0) stop 'cannot allocate (max_n is too large)'  ! 割り付け不可なら停止
 

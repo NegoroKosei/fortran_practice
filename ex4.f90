@@ -11,7 +11,8 @@ contains
         real(8), parameter :: epsilon = 1.0d-15 ! 絶対誤差の大きさを指定
         integer, parameter :: max_i = 100       ! 最大反復回数100
 
-        i = 0
+        ! 誤差を比べる際にニュートン法と比較しやすいように1回目の中点での計算を0回目とする
+        i = -1
         do
             i = i + 1             ! 反復回数の増加
             if (i > max_i) stop 'err :did not converge' ! 最大反復回数max_iを指定

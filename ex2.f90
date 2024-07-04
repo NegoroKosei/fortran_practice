@@ -1,3 +1,4 @@
+! 配列を用いないver
 module Func
    implicit none
 contains

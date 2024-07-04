@@ -73,7 +73,7 @@ program ex2
       ! 書き込み用ファイル(filename)の確認
       open(output_file_n, file = file_name, action = 'write', iostat = is)
       if (is /= 0) stop 'cannot open output file'
-      write(*, *) 'output_file : ',file_name 
+      write(*, *) 'output_file : ',file_name
       write(output_file_n, '(""i3" "f24.12"")') n(file_n), x(file_n)     !file_n番目行の値を書き込み
       close(output_file_n)
    end do
@@ -96,4 +96,5 @@ end program ex2
 
 ! fortranは大文字、小文字を区別しない
 ! intent属性(入出力特性)は付けると最適化により、速度が向上することもある。バグも減らせる。
-! read文を用いてread(A, 'I2', iostat = iost) B    → Aを'I2'として(整数2桁)としてBに代入
+! read文を用いてread(A, 'I2', iostat = iost) str    → Aを'I2'として(整数2桁)としてstrに代入
+! write文を用いてwrite(str,'I2') A とも書ける
