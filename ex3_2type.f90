@@ -1,4 +1,4 @@
-! ニュートン法による解の計算
+! ニュートン法による解の計算, 解の収束判定をxの振動で行うnewton とf(x)で行うnewton2 との比較
 ! 実行時にオプション'-v'を入力することでそれぞれのステップごとの出力も得られる
 ! 解の付近の様子がある程度わかっているときに使う
 ! 微分が計算できなかったり、極値があるせいで値が飛んでしまったりするため。
@@ -46,27 +46,63 @@ contains
       end do
    end subroutine newton
 
+   subroutine newton2(x1, i, v, fo, fmt)
+      real(8), intent(inout) :: x1              ! 前のstepの解
+      integer, intent(out) :: i                 ! 反復回数
+      ! verboseモード用の変数
+      integer, intent(in) :: v, fo
+      character(len=*), intent(in) :: fmt
+
+      real(8) :: x2, y, delta
+      real(8), parameter :: epsilon = 1.0d-15   ! 絶対誤差の大きさを指定
+      integer, parameter :: max_i = 100         ! 最大反復回数max_iを指定
+
+      i = 0
+      do
+         i = i + 1                                    ! 反復回数の増加
+         if (i > max_i) stop 'err: did not converge'  ! 最大反復回数まで繰り返し
+
+         ! 微分が0ならば解x2 が求まらないため終了
+         if (diff(x1) == 0.0d0) stop 'err: diff==0!'
+
+         ! ニュートン法により新たな解x2 を求める
+         x2 = -func(x1) / diff(x1) + x1
+
+         ! 前の解x1 と新たな解x2 の差deltaを求める
+         delta = x1 - x2
+
+         ! 前のstepの解x1の更新
+         x1 = x2
+
+         ! 代入して0なら解とする
+         if (abs(func(x2)) < epsilon) then
+            exit
+         endif
+         if (v == 1) write(fo, fmt) x2, i          ! verboseモード、解と反復回数を出力
+      end do
+   end subroutine newton2
+
    function func(x) result(y)       ! f(x)
       real(8), intent(in) :: x
       real(8) :: y
-      y = x ** 2 - 1.0d0
+      y = 0.000001*x ** 2 - 0.000001d0
    end function func
 
    function diff(x) result(y)       ! f'(x)
       real(8), intent(in) :: x
       real(8) :: y
-      y = 2.0d0 * x
+      y = 0.000002 * x
    end function diff
 end module modu
 
 program ex3
    use modu
    implicit none
-   real(8) :: x
+   real(8) :: x, x0
    integer :: i = 0, is
    ! ファイル出力用
    integer, parameter :: fo = 11
-   character(len=32), parameter :: fname = "ex3_file/output001.dat"
+   character(len=32), parameter :: fname = "ex3_file/output002.dat"
    character(len=32), parameter :: fmt = '(d24.16, i3)'
 
    ! verboseモードの設定 実行時に-vを入力するとすべてのstepでの結果を出力できる
@@ -92,10 +128,19 @@ program ex3
    endif
    if (v == 1) write(fo, fmt) x, i  ! verboseモードあり
 
+   x0 = x
+
    ! ニュートン法による計算。初期値、反復回数に加えverboseモード用のvとfoも引数とする
    call newton(x, i, v, fo, fmt)
    write(fo, fmt) x, i
+
+   ! f(x)
+   x = x0
+   call newton2(x, i, v, fo, fmt)
+
+   write(fo, fmt) x, i
    close(fo)
+
 end program ex3
 
 

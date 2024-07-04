@@ -1,3 +1,4 @@
+! 2分法
 module modu
     implicit none
 contains
@@ -9,13 +10,13 @@ contains
         integer, intent(in) :: v, fo
         real(8) :: c, ya, yb, yc, delta
         real(8), parameter :: epsilon = 1.0d-15 ! 絶対誤差の大きさを指定
-        integer, parameter :: max_i = 100       ! 最大反復回数100
+        integer, parameter :: max_i = 1000      ! 最大反復回数1000
 
         ! 誤差を比べる際にニュートン法と比較しやすいように1回目の中点での計算を0回目とする
         i = -1
         do
             i = i + 1             ! 反復回数の増加
-            if (i > max_i) stop 'err :did not converge' ! 最大反復回数max_iを指定
+            if (i > max_i) stop 'err :did not converge' ! 最大反復回数max_iを越えると発散とする
 
             ! 中点を求める
             c = (a + b) / 2.0d0
@@ -30,10 +31,7 @@ contains
             ! a-bの絶対値が誤差範囲に収まっているなら解とする
             elseif (abs(delta) < epsilon) then
                 exit
-            ! a, b, cの中で同じ値があれば解とする
-            elseif ((a == c) .or. (c == b)) then
-                exit
-            ! yaとybの符号が異なるならば解はa, bの間にある
+            ! yaとycの符号が異なるならば解はa, cの間にある
             elseif (ya * yc < 0.0d0) then
                 b = c
             ! ybとycの符号が同じならば解はc, bの間にある
