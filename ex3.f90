@@ -49,13 +49,13 @@ contains
    function func(x) result(y)       ! f(x)
       real(8), intent(in) :: x
       real(8) :: y
-      y = x ** 2 - 1.0d0
+      y = x ** 4 - 1.0d0*x ** 2
    end function func
 
    function diff(x) result(y)       ! f'(x)
       real(8), intent(in) :: x
       real(8) :: y
-      y = 2.0d0 * x
+      y = 4.0d0 * x ** 3 - 2.0d0 * x
    end function diff
 end module modu
 

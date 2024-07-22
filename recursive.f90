@@ -13,12 +13,12 @@ program fibonacci_example
     print *, "Fibonacci number", n, "is", result
 
 contains
-
+    ! 再帰関数 fibonacci を定義
     recursive function fibonacci(n) result(res)
         implicit none
         integer, intent(in) :: n
         integer :: res
-
+        ! 再帰終了条件
         if (n == 0) then
             res = 0
         elseif (n == 1) then
