@@ -65,7 +65,7 @@ program ex4
     argn = command_argument_count()
     do k = 1, argn
         call get_command_argument(k, argc)
-        if (argc == '-v') v = 1                      ! -vの入力時、v = 1とする
+        if (argc == '-v') v = 1                     ! -vの入力時、v = 1とする
     end do
 
     write(*, '(a)', advance='no') 'input xfrom xto : '
