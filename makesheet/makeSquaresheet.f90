@@ -55,7 +55,7 @@ program makeSquaresheet
     ! シートの大きさの設定
     n1 = 10 * scale
     n2 = 7 * scale
-    ! 平行移動ベクトルの設定
+    ! 平行移動ベクトルの設定(位置調整用)
     trans = [ -3.5d0, -3.5d0] * scale
     ! 回転角の設定
     theta = acos(1.0d0)
